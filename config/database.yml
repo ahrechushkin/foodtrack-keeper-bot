@@ -1,0 +1,6 @@
+:development:
+  :name: foodtrack_keeper_dev
+:production:
+  :name: foodtrack_keeper_production
+:default:
+  :name: foodtrack_keeper_dev
