@@ -13,7 +13,8 @@ module Database
         self.db = PG.connect(dbname: DB_NAME)
       rescue PG::ConnectionBad
         puts 'Creating a new database'
-        create_db
+        create_db && self.db = PG.connect(dbname: DB_NAME)
+        schema.map { |table_schema| create_table(table_schema) }
       end
     end
 
@@ -37,6 +38,17 @@ module Database
       SQL
     end
 
+    def schema
+      schema_mapper = YAML.load_file('./config/database/schema.yml')
+      schema_mapper.keys.map do |table| 
+        columns = schema_mapper[table]["columns"]
+        types = columns.map do |column, value|
+          "#{column} #{value["type"]}"
+        end.join(',')
+      "CREATE TABLE #{table} (#{types});"
+      end
+    end      
+
     module_function(
       :db,
       :db=,
@@ -44,6 +56,7 @@ module Database
       :create_db,
       :drop_db,
       :create_table,
+      :schema,
     )
   end
 end

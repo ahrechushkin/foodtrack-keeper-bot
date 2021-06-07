@@ -1,0 +1,11 @@
+---
+food:
+  columns:
+    id:
+      type: serial PRIMARY KEY 
+    name:
+      type: varchar(255)
+    description:
+      type: varchar(255)
+    cost:
+      type: float
