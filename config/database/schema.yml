@@ -1,5 +1,5 @@
 ---
-food:
+categories:
   columns:
     id:
       type: serial PRIMARY KEY 
@@ -7,5 +7,48 @@ food:
       type: varchar(255)
     description:
       type: varchar(255)
+items:
+  columns:
+    id:
+      type: serial PRIMARY KEY
+    name:
+      type: varchar(255)
+    description:
+      type: varchar(255)
+    image:
+      type: varchar(255)
     cost:
       type: float
+    category_id:
+      type: integer not null references categories(id)
+orders:
+  columns:
+    id:
+      type: serial PRIMARY KEY
+    userid:
+      type: varchar(255)
+    shipping_address:
+      type: varchar(255)
+    status:
+      type: varchar(255)
+# In future i'm going to define table with payments
+# Actually right now it doesn't have sense for me (only cash or card)
+    payment_type:
+      type: varchar(255)
+    created:
+      type: timestamp 
+    modified:
+      type: timestamp 
+    validated:
+      type: BIT 
+order_items:
+  columns:
+    id:
+      type: serial PRIMARY KEY
+    order_id:
+      type: integer not null references orders(id)
+    item_id:
+      type: integer not null references items(id)
+    items_count:
+      type: integer
+    

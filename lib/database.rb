@@ -14,7 +14,13 @@ module Database
       rescue PG::ConnectionBad
         puts 'Creating a new database'
         create_db && self.db = PG.connect(dbname: DB_NAME)
-        schema.map { |table_schema| create_table(table_schema) }
+        schema.map do  |table_schema|
+          puts '-----------'
+          puts table_schema
+          puts '-----------'
+          create_table(table_schema)
+        end
+        puts 'Database created successfully'
       end
     end
 
