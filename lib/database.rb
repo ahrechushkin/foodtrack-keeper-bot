@@ -44,6 +44,19 @@ module Database
       SQL
     end
 
+    def get_table(name, *filter)
+      
+      unless filter.empty?
+        db.exec <<-SQL
+          SELECT * from #{name} WHERE #{filter[0]} = \'#{filter[1]}\';
+        SQL
+      else
+        db.exec <<-SQL
+          SELECT * from #{name};
+        SQL
+      end
+    end
+
     def schema
       schema_mapper = YAML.load_file('./config/database/schema.yml')
       schema_mapper.keys.map do |table| 
@@ -63,6 +76,7 @@ module Database
       :drop_db,
       :create_table,
       :schema,
+      :get_table,
     )
   end
 end
